@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+import { Pressable, StyleSheet, Text, View, TextInput, Alert, ActivityIndicator } from 'react-native';
 import { useContext, useState } from 'react';
 import { fetchUser } from '../services/UserService';
 import { TokenContext } from '../contexts/TokenContext';
@@ -20,7 +20,7 @@ export default function Search({ navigation }) {
 		}
 		const user = await fetchUser(realToken, searchQuery);
 		if (!user) {
-			Alert.alert('Error', 'User not found');
+			Alert.alert('Error', 'User not found or network error.');
 			setIsLoading(false);
 			return;
 		}
@@ -46,7 +46,11 @@ export default function Search({ navigation }) {
 					autoCorrect={false}
 				/>
 				<Pressable style={styles.searchButton} onPress={handleSearch} disabled={isLoading}>
-					<Text style={styles.searchButtonText}>Go</Text>
+					{isLoading ? (
+						<ActivityIndicator color="#fff" size="small" />
+					) : (
+						<Text style={styles.searchButtonText}>Go</Text>
+					)}
 				</Pressable>
 			</View>
 

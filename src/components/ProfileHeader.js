@@ -19,6 +19,7 @@ export default function ProfileHeader({ user, selectedCursus, setSelectedCursus 
     const evaluationPoints = user.correction_point || 0;
     const walletPoints = user.wallet || 0;
     const level = selectedCursus.level || 0;
+    const email = user.email || 'No email provided';
 
     const openDropdown = () => {
         dropdownButtonRef.current.measure((fx, fy, width, height, px, py) => {
@@ -56,6 +57,10 @@ export default function ProfileHeader({ user, selectedCursus, setSelectedCursus 
                             </View>
                         )}
                     </View>
+                    
+                    <View style={styles.emailContainer}>
+                        <Text style={styles.emailText}>✉️ {email}</Text>
+                    </View>
 
                     {cursusList.length > 0 && (
                         <View style={styles.cursusDropdownContainer}>
@@ -64,7 +69,11 @@ export default function ProfileHeader({ user, selectedCursus, setSelectedCursus 
                                 style={styles.cursusDropdownButton}
                                 onPress={openDropdown}
                             >
-                                <Text style={styles.cursusDropdownText}>
+                                <Text 
+                                    style={styles.cursusDropdownText}
+                                    numberOfLines={2}
+                                    ellipsizeMode="tail"
+                                >
                                     {`${grade} at ${cursusLabel}`}
                                 </Text>
                                 <Text style={styles.dropdownArrow}>▼</Text>
@@ -175,7 +184,7 @@ const styles = StyleSheet.create({
 		top: 0,
 		left: 0,
 		right: 0,
-		height: 120,
+		height: 160,
 		backgroundColor: '#007AFF',
 		opacity: 0.1,
 		borderTopLeftRadius: 16,
@@ -183,15 +192,19 @@ const styles = StyleSheet.create({
 	},
 	headerContent: {
 		flexDirection: 'row',
-        paddingTop: 16,
-		padding: 8,
-		alignItems: 'center',
+        paddingTop: 20,
+		padding: 16,
+		alignItems: 'flex-start',
 		position: 'relative',
 		zIndex: 1,
+		minHeight: 150,
 	},
 	imageContainer: {
 		position: 'relative',
 		marginRight: 16,
+		justifyContent: 'center',
+		alignItems: 'center',
+		height: 130,
 	},
 	profileImage: {
 		width: 80,
@@ -219,6 +232,8 @@ const styles = StyleSheet.create({
 		flex: 1,
 		position: 'relative',
 		zIndex: 2,
+		justifyContent: 'flex-start',
+		paddingTop: 8,
 	},
 	displayName: {
 		fontSize: 16,
@@ -260,12 +275,24 @@ const styles = StyleSheet.create({
 		flexWrap: 'wrap',
 		flexShrink: 1,
 	},
+	emailContainer: {
+		marginVertical: 4,
+		alignSelf: 'flex-start',
+	},
+	emailText: {
+		fontSize: 12,
+		color: '#666',
+		fontWeight: '500',
+	},
 	statsContainer: {
 		flexDirection: 'row',
-        paddingTop: 20,
+        paddingTop: 16,
 		paddingHorizontal: 20,
 		paddingBottom: 20,
 		justifyContent: 'space-between',
+		backgroundColor: '#fff',
+		borderBottomLeftRadius: 16,
+		borderBottomRightRadius: 16,
 	},
 	statItem: {
 		flex: 1,
@@ -301,28 +328,33 @@ const styles = StyleSheet.create({
 	},
 	cursusDropdownContainer: {
         marginVertical: 8,
+        maxWidth: '100%',
     },
     cursusDropdownButton: {
         backgroundColor: '#f8f9fa',
-        borderRadius: 12,
-        paddingHorizontal: 16,
-        paddingVertical: 12,
+        borderRadius: 8,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
         borderWidth: 1,
         borderColor: '#e0e0e0',
+        minHeight: 36,
+        maxWidth: '100%',
     },
     cursusDropdownText: {
-        fontSize: 14,
+        fontSize: 13,
         color: '#333',
         fontWeight: '500',
         flex: 1,
+        marginRight: 8,
+        lineHeight: 16,
     },
     dropdownArrow: {
-        fontSize: 12,
+        fontSize: 10,
         color: '#666',
-        marginLeft: 8,
+        flexShrink: 0,
     },
     dropdownOverlay: {
         flex: 1,
